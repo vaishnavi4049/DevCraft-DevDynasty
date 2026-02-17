@@ -1,26 +1,35 @@
+
+
 require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const matchRoutes = require("./routes/matchRoutes");
+const authRoutes = require("./routes/authRoutes");
 
-const app = express();   // ✅ MUST come before app.use()
 
-// Middleware
-app.use(cors());
+const app = express();
+
+app.use(cors({
+  origin: "http://localhost:5173", 
+  credentials: true
+}));
+
+
 app.use(express.json());
+app.use(cookieParser()); 
 
-// Routes
+
+app.use("/api/auth", authRoutes);
 app.use("/api", matchRoutes);
 
-// Test Route
 app.get("/", (req, res) => {
   res.send("CollabSphere API Running 🚀");
 });
 
-// Connect MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log("MongoDB Connected");
