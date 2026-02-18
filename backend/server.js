@@ -9,6 +9,7 @@ const matchRoutes = require("./routes/matchRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const authRoutes = require("./routes/authRoutes");
 const projectRoutes = require("./routes/projectRoutes");
+const completeProfileRoutes = require("./routes/CompleteProfileRoute");
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/match", matchRoutes);
 
 app.use("/api/projects", projectRoutes);
-
+app.use("/api/users", completeProfileRoutes);
 
 app.get("/", (req, res) => {
   res.send("🚀 CollabSphere API Running");

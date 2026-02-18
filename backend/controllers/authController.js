@@ -68,21 +68,26 @@ exports.login = async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    res.status(200)
-      .cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        maxAge: 24 * 60 * 60 * 1000
-      })
-      .json({
-        success: true,
-        user: {
-          _id: user._id,
-          fullname: user.fullname,
-          role: user.role
-        }
-      });
+  res.status(200)
+  .cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    maxAge: 24 * 60 * 60 * 1000
+  })
+  .json({
+    success: true,
+    user: {
+      _id: user._id,
+      fullname: user.fullname,
+      role: user.role,
+      profileCompleted: user.profileCompleted, // <-- add this
+      skills: user.skills || [],
+      bio: user.bio || "",
+      githubUsername: user.githubUsername || "",
+      githubScore: user.githubScore || 0
+    }
+  });
 
   } catch (error) {
     res.status(500).json({

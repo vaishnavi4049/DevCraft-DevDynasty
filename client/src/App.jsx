@@ -4,7 +4,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import CreateProject from "./pages/CreateProject";
 import ProjectFeed from "./pages/ProjectFeed";
-
+import CompleteProfile from "./pages/CompleteProfile";
 import CreatorDashboard from "./pages/CreatorDashboard";
 
 
@@ -34,7 +34,7 @@ function App() {
         {/* Creator Routes */}
         <Route path="/create-project" element={<CreateProject />} />
         <Route path="/creator-dashboard" element={<CreatorDashboard />} />
-
+        <Route path="/complete-profile" element={<CompleteProfile />} />
         {/* Developer Routes */}
         <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
 
