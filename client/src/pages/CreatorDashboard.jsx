@@ -145,7 +145,13 @@ const handleEdit = async (project) => {
   >
     Edit
   </button>
-
+   
+  <button
+    onClick={() => navigate(`/chat/${project._id}`)}
+    className="bg-indigo-600 text-white px-4 py-1 rounded"
+  >
+    Open Chat
+  </button>
   <button
     onClick={() => handleDelete(project._id)}
     className="bg-red-600 text-white px-4 py-1 rounded"

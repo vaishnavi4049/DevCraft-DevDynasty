@@ -34,8 +34,8 @@ exports.createProject = async (req, res) => {
 // 🔹 Get All Projects
 exports.getAllProjects = async (req, res) => {
   try {
-    const projects = await Project.find()
-      .populate("createdBy", "fullname role")
+    const projects = await Project.find().populate("createdBy", "fullname")
+  .populate("team", "_id fullname")
       .sort({ createdAt: -1 });
 
     res.json(projects);
