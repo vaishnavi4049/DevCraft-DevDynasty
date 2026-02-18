@@ -5,32 +5,34 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const matchRoutes = require("./routes/matchRoutes");
+const profileRoutes = require("./routes/profileRoutes");
 
-const app = express();   // ✅ MUST come before app.use()
+const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use("/api", matchRoutes);
+app.use("/api/match", matchRoutes);
+app.use("/api/profile", profileRoutes);
 
-// Test Route
 app.get("/", (req, res) => {
-  res.send("CollabSphere API Running 🚀");
+  res.send("🚀 CollabSphere API Running");
 });
 
-// Connect MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
-    console.log("MongoDB Connected");
+    console.log("✅ MongoDB Connected");
 
     const PORT = process.env.PORT || 5000;
 
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
-    console.log("MongoDB Error:", err);
+    console.error("❌ MongoDB Error:", err.message);
   });
+
+process.on("unhandledRejection", (err) => {
+  console.error("Unhandled Rejection:", err.message);
+});

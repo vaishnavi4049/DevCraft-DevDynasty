@@ -8,6 +8,10 @@ exports.analyzeGithubProfile = async (username) => {
 
     const repos = response.data;
 
+    if (!Array.isArray(repos)) {
+      return { verifiedSkills: [], githubScore: 0 };
+    }
+
     let languageMap = {};
     let totalStars = 0;
 
@@ -17,17 +21,21 @@ exports.analyzeGithubProfile = async (username) => {
           (languageMap[repo.language] || 0) + 1;
       }
 
-      totalStars += repo.stargazers_count;
+      totalStars += repo.stargazers_count || 0;
     });
+
+    const totalRepos = repos.length || 1;
 
     const verifiedSkills = Object.keys(languageMap).map(lang => ({
       name: lang,
       repoCount: languageMap[lang],
-      confidenceScore: Math.min(languageMap[lang] * 10, 100)
+      confidenceScore: Math.round(
+        (languageMap[lang] / totalRepos) * 100
+      )
     }));
 
     const githubScore =
-      (repos.length * 5) +
+      (totalRepos * 5) +
       (totalStars * 3);
 
     return { verifiedSkills, githubScore };

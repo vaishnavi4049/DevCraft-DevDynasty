@@ -1,15 +1,16 @@
 const mongoose = require("mongoose");
 
-const skillSchema = new mongoose.Schema({
+const verifiedSkillSchema = new mongoose.Schema({
   name: String,
-  level: Number
+  repoCount: Number,
+  confidenceScore: Number
 });
 
 const userSchema = new mongoose.Schema({
   name: String,
   email: String,
   githubUsername: String,
-  skills: [skillSchema],
+  verifiedSkills: [verifiedSkillSchema],
   githubScore: {
     type: Number,
     default: 0
