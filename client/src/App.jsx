@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import CreateProject from "./pages/CreateProject";
+import ProjectFeed from "./pages/ProjectFeed";
+
+import CreatorDashboard from "./pages/CreatorDashboard";
+
+
+// Temporary dashboards (you can improve later)
+// const CreatorDashboard = () => (
+//   <div className="p-8">
+//     <h2 className="text-2xl font-bold">Creator Dashboard</h2>
+//   </div>
+// );
+
+const DeveloperDashboard = () => (
+  <div className="p-8">
+    <h2 className="text-2xl font-bold">Developer Dashboard</h2>
+  </div>
+);
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+
+        {/* Public Routes */}
+        <Route path="/" element={<ProjectFeed />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+
+        {/* Creator Routes */}
+        <Route path="/create-project" element={<CreateProject />} />
+        <Route path="/creator-dashboard" element={<CreatorDashboard />} />
+
+        {/* Developer Routes */}
+        <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
+
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" />} />
+
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
