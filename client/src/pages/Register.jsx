@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { registerUser } from "../services/authService";
 import { useNavigate } from "react-router-dom";
@@ -19,16 +20,23 @@ function Register() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await registerUser(formData);
-      alert("Registration successful");
-      navigate("/login");
-    } catch (error) {
-      alert(error.response?.data?.message || "Error");
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await registerUser(formData);
+    
+    
+    if (formData.role === "creator") {
+      navigate("/create-project"); // creators go straight to project creation
+    } else {
+      navigate("/complete-profile"); // technical users complete profile first
     }
-  };
+
+  } catch (error) {
+    alert(error.response?.data?.message || "Registration failed");
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600">
@@ -73,12 +81,8 @@ function Register() {
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
           >
-            <option value="user">
-              Technical Person
-            </option>
-            <option value="creator">
-              Project Creator
-            </option>
+            <option value="user">Technical Person</option>
+            <option value="creator">Project Creator</option>
           </select>
 
           <button
