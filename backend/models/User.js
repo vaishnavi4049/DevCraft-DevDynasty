@@ -28,7 +28,11 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "creator"],
     default: "user"
   },
-
+   skills: [{ name: String }],    
+   bio: { type: String, default: "" },
+availability: { type: Number, default: 0 },
+profileCompleted: { type: Boolean, default: false },
+githubVerified: { type: Boolean, default: false },
   githubUsername: String,
   verifiedSkills: [verifiedSkillSchema],
   githubScore: {
