@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const matchRoutes = require("./routes/matchRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const authRoutes = require("./routes/authRoutes");
+const projectRoutes = require("./routes/projectRoutes");
 
 const app = express();
 
@@ -22,6 +23,8 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/match", matchRoutes);
+
+app.use("/api/projects", projectRoutes);
 
 
 app.get("/", (req, res) => {

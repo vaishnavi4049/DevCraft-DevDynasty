@@ -1,27 +1,40 @@
+
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const jwt= require("jsonwebtoken");
-exports.isAuthenticated = async (req, res, next) => {
+
+const isAuthenticated = async (req, res, next) => {
   try {
+    // 1️⃣ Get token from cookies
     const token = req.cookies.token;
 
     if (!token) {
       return res.status(401).json({
-        message: "Not authenticated",
-        success: false
+        success: false,
+        message: "Not authenticated. Please login."
       });
     }
 
+    // 2️⃣ Verify token
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
+    if (!decoded) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid token."
+      });
+    }
+
+    // 3️⃣ Find user from DB
     const user = await User.findById(decoded.id).select("-password");
 
     if (!user) {
       return res.status(401).json({
-        message: "User not found",
-        success: false
+        success: false,
+        message: "User not found."
       });
     }
 
+    // 4️⃣ Attach user info to request
     req.user = user;
     req.id = user._id;
     req.role = user.role;
@@ -30,9 +43,10 @@ exports.isAuthenticated = async (req, res, next) => {
 
   } catch (error) {
     return res.status(401).json({
-      message: "Authentication failed",
-      success: false
+      success: false,
+      message: "Authentication failed."
     });
   }
 };
 
+module.exports = { isAuthenticated };
