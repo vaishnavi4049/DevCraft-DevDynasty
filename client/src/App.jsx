@@ -7,6 +7,9 @@ import ProjectFeed from "./pages/ProjectFeed";
 
 import CreatorDashboard from "./pages/CreatorDashboard";
 
+import DeveloperDashboard from "./pages/DeveloperDashboard";
+
+
 
 // Temporary dashboards (you can improve later)
 // const CreatorDashboard = () => (
@@ -15,11 +18,11 @@ import CreatorDashboard from "./pages/CreatorDashboard";
 //   </div>
 // );
 
-const DeveloperDashboard = () => (
-  <div className="p-8">
-    <h2 className="text-2xl font-bold">Developer Dashboard</h2>
-  </div>
-);
+// const DeveloperDashboard = () => (
+//   <div className="p-8">
+//     <h2 className="text-2xl font-bold">Developer Dashboard</h2>
+//   </div>
+// );
 
 function App() {
   return (
@@ -36,7 +39,8 @@ function App() {
         <Route path="/creator-dashboard" element={<CreatorDashboard />} />
 
         {/* Developer Routes */}
-        <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
+      <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
+
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />

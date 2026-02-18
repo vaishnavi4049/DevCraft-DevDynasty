@@ -10,6 +10,13 @@ const {
   updateProject
 } = require("../controllers/projectController");
 
+const {
+  applyToProject,
+  getMatchingProjects,
+  getAppliedProjects
+} = require("../controllers/projectController");
+
+
 
 const { isAuthenticated } =
   require("../middleware/isAuthenticated");
@@ -30,6 +37,12 @@ router.put("/:id", isAuthenticated, updateProject);
 
 // Delete project
 router.delete("/:id", isAuthenticated, deleteProject);
+
+router.post("/:id/apply", isAuthenticated, applyToProject);
+
+router.get("/matching", isAuthenticated, getMatchingProjects);
+
+router.get("/applied", isAuthenticated, getAppliedProjects);
 
 
 module.exports = router;

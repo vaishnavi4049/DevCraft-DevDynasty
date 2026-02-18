@@ -97,6 +97,47 @@ exports.deleteProject = async (req, res) => {
   }
 };
 
+// 🔹 Apply to Project (Developer Only)
+exports.applyToProject = async (req, res) => {
+  try {
+    if (req.role !== "user") {
+      return res.status(403).json({
+        success: false,
+        message: "Only developers can apply"
+      });
+    }
+
+    const project = await Project.findById(req.params.id);
+
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: "Project not found"
+      });
+    }
+
+    // Prevent duplicate applications
+    if (project.applicants.includes(req.id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Already applied"
+      });
+    }
+
+    project.applicants.push(req.id);
+    await project.save();
+
+    res.json({
+      success: true,
+      message: "Applied successfully"
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 
 // 🔹 Update Project (Only Owner)
 exports.updateProject = async (req, res) => {
@@ -138,6 +179,45 @@ exports.updateProject = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// 🔹 Get Projects Matching Developer Skills
+exports.getMatchingProjects = async (req, res) => {
+  try {
+    const user = await User.findById(req.id);
+
+    const userSkills = user.verifiedSkills.map(skill => skill.name);
+
+    const projects = await Project.find({
+      requiredSkills: { $in: userSkills }
+    }).populate("createdBy", "fullname");
+
+    res.json({
+      success: true,
+      projects
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+exports.getAppliedProjects = async (req, res) => {
+  try {
+    const projects = await Project.find({
+      applicants: req.id
+    });
+
+    res.json({
+      success: true,
+      projects
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 
 // 🔹 Search Projects
