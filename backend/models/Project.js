@@ -33,7 +33,7 @@ const projectSchema = new mongoose.Schema(
       required: true
     },
 
-    // 🔥 NEW: Developers who applied
+    // Developers who applied
     applicants: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -41,19 +41,27 @@ const projectSchema = new mongoose.Schema(
       }
     ],
 
-    // 🔥 NEW: Project status
+    // Project status
     status: {
       type: String,
       enum: ["open", "closed"],
       default: "open"
     },
 
-    // 🔥 OPTIONAL: Selected Developer (future feature)
+    // Selected Developer
     selectedDeveloper: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       default: null
-    }
+    },
+
+    // Team members
+    team: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ]
   },
   { timestamps: true }
 );

@@ -9,8 +9,9 @@ import CreatorDashboard from "./pages/CreatorDashboard";
 
 import DeveloperDashboard from "./pages/DeveloperDashboard";
 
-
-
+import ViewRequest from "./pages/ProjectRequests";
+import ProjectChat from "./pages/projectChat";
+import DeveloperApplications from "./pages/DeveloperApplications";
 // Temporary dashboards (you can improve later)
 // const CreatorDashboard = () => (
 //   <div className="p-8">
@@ -38,9 +39,15 @@ function App() {
         <Route path="/create-project" element={<CreateProject />} />
         <Route path="/creator-dashboard" element={<CreatorDashboard />} />
         <Route path="/complete-profile" element={<CompleteProfile />} />
+        <Route path="/view-requests" element={<ViewRequest/>} />
+        <Route path="/chat/:projectId" element={<ProjectChat />} />
         {/* Developer Routes */}
+
       <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
 
+        <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
+        
+<Route path="/my-applications" element={<DeveloperApplications />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />
