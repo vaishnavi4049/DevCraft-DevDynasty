@@ -12,6 +12,7 @@ const projectRoutes = require("./routes/projectRoutes");
 const completeProfileRoutes = require("./routes/CompleteProfileRoute");
 const TeamRequest = require("./models/TeamRequest");
 const Message = require("./models/Message");
+const compatibilityRoutes = require("./routes/CompatibilityRoutes");
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use("/api/match", matchRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/users", completeProfileRoutes);
 app.use("/api/request", require("./routes/TeamRequestRoutes"));
+app.use("/api/compatibility", compatibilityRoutes);
 
 io.on("connection", (socket) => {
 
