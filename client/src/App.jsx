@@ -12,6 +12,7 @@ import DeveloperDashboard from "./pages/DeveloperDashboard";
 import ViewRequest from "./pages/ProjectRequests";
 import ProjectChat from "./pages/projectChat";
 import DeveloperApplications from "./pages/DeveloperApplications";
+import LandingPage from "./pages/LandingPage";
 // Temporary dashboards (you can improve later)
 // const CreatorDashboard = () => (
 //   <div className="p-8">
@@ -31,7 +32,7 @@ function App() {
       <Routes>
 
         {/* Public Routes */}
-        <Route path="/" element={<ProjectFeed />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 
