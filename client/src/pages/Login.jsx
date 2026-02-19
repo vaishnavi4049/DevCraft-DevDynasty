@@ -140,7 +140,7 @@ function Login() {
       } 
       // If profile is complete, go to dashboard based on role
       else if (data.user.role === "creator") {
-        navigate("/creator-dashboard");
+        navigate("/creator");
       } else {
         navigate("/developer-dashboard");
       }
