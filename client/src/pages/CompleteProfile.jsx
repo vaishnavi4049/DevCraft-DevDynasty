@@ -1,7 +1,144 @@
 
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
+// import axios from "axios";
+// import { useNavigate } from "react-router-dom";
+
+// const CompleteProfile = () => {
+//   const navigate = useNavigate();
+
+//   const [formData, setFormData] = useState({
+//     skills: [],
+//     bio: "",
+//     availability: 0,
+//     githubUsername: ""
+//   });
+
+//   const [skillInput, setSkillInput] = useState("");
+//   const [message, setMessage] = useState("");
+
+//   // Add skill to skills array
+//   const addSkill = () => {
+//     if (skillInput && !formData.skills.includes(skillInput)) {
+//       setFormData({
+//         ...formData,
+//         skills: [...formData.skills, skillInput]
+//       });
+//       setSkillInput("");
+//     }
+//   };
+
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const res = await axios.post(
+//         "http://localhost:5000/api/users/complete-profile",
+//         formData,
+//         { withCredentials: true }
+//       );
+
+//       setMessage(res.data.message);
+
+    
+//       const userRole = res.data.user.role;
+//       if (userRole === "creator") navigate("/create-project");
+//       else navigate("/"); 
+
+//     } catch (err) {
+//       setMessage(err.response?.data?.message || "Profile completion failed");
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600">
+//       <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
+
+//         <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
+//           Complete Your Profile
+//         </h2>
+
+//         {message && <p className="mb-4 text-red-500">{message}</p>}
+
+//         <form onSubmit={handleSubmit} className="space-y-4">
+
+//           <div className="flex gap-2">
+//             <input
+//               type="text"
+//               placeholder="Add a skill"
+//               value={skillInput}
+//               onChange={(e) => setSkillInput(e.target.value)}
+//               className="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+//             />
+//             <button
+//               type="button"
+//               onClick={addSkill}
+//               className="bg-indigo-600 text-white px-4 py-2 rounded-lg"
+//             >
+//               Add
+//             </button>
+//           </div>
+
+//           <div className="flex flex-wrap gap-2">
+//             {formData.skills.map((skill, idx) => (
+//               <span
+//                 key={idx}
+//                 className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-sm"
+//               >
+//                 {skill}
+//               </span>
+//             ))}
+//           </div>
+
+//           <textarea
+//             name="bio"
+//             placeholder="Your bio"
+//             value={formData.bio}
+//             onChange={handleChange}
+//             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+//           />
+
+//           <input
+//             type="number"
+//             name="availability"
+//             placeholder="Availability (hours/week)"
+//             value={formData.availability}
+//             onChange={handleChange}
+//             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+//           />
+
+//           <input
+//             type="text"
+//             name="githubUsername"
+//             placeholder="GitHub Username"
+//             value={formData.githubUsername}
+//             onChange={handleChange}
+//             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+//           />
+
+//           <button
+//             type="submit"
+//             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg transition duration-200"
+//           >
+//             Complete Profile
+//           </button>
+
+//         </form>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default CompleteProfile;
+
+
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Plus, X, Github, Clock } from "lucide-react";
 
 const CompleteProfile = () => {
   const navigate = useNavigate();
@@ -9,30 +146,43 @@ const CompleteProfile = () => {
   const [formData, setFormData] = useState({
     skills: [],
     bio: "",
-    availability: 0,
+    availability: "",
     githubUsername: ""
   });
 
   const [skillInput, setSkillInput] = useState("");
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
-  // Add skill to skills array
+  // ================= ADD SKILL =================
   const addSkill = () => {
-    if (skillInput && !formData.skills.includes(skillInput)) {
+    if (skillInput.trim() && !formData.skills.includes(skillInput.trim())) {
       setFormData({
         ...formData,
-        skills: [...formData.skills, skillInput]
+        skills: [...formData.skills, skillInput.trim()]
       });
       setSkillInput("");
     }
+  };
+
+  // ================= REMOVE SKILL =================
+  const removeSkill = (skillToRemove) => {
+    setFormData({
+      ...formData,
+      skills: formData.skills.filter((skill) => skill !== skillToRemove)
+    });
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // ================= SUBMIT =================
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setMessage("");
+
     try {
       const res = await axios.post(
         "http://localhost:5000/api/users/complete-profile",
@@ -42,91 +192,148 @@ const CompleteProfile = () => {
 
       setMessage(res.data.message);
 
-    
       const userRole = res.data.user.role;
-      if (userRole === "creator") navigate("/create-project");
-      else navigate("/"); 
+      setTimeout(() => {
+        if (userRole === "creator") navigate("/create-project");
+        else navigate("/developer-dashboard");
+      }, 1000);
 
     } catch (err) {
-      setMessage(err.response?.data?.message || "Profile completion failed");
+      setError(err.response?.data?.message || "Profile completion failed");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600">
-      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
+    <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center px-6">
 
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-xl p-10 rounded-3xl bg-gradient-to-b from-white/5 to-white/0 border border-white/10 backdrop-blur-xl shadow-2xl"
+      >
+
+        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
           Complete Your Profile
         </h2>
 
-        {message && <p className="mb-4 text-red-500">{message}</p>}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-
-          <div className="flex gap-2">
-            <input
-              type="text"
-              placeholder="Add a skill"
-              value={skillInput}
-              onChange={(e) => setSkillInput(e.target.value)}
-              className="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
-            />
-            <button
-              type="button"
-              onClick={addSkill}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-lg"
-            >
-              Add
-            </button>
+        {error && (
+          <div className="mb-4 text-red-400 text-sm bg-red-500/10 p-3 rounded-lg border border-red-500/20">
+            {error}
           </div>
+        )}
 
-          <div className="flex flex-wrap gap-2">
-            {formData.skills.map((skill, idx) => (
-              <span
-                key={idx}
-                className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-sm"
+        {message && (
+          <div className="mb-4 text-green-400 text-sm bg-green-500/10 p-3 rounded-lg border border-green-500/20">
+            {message}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+
+          {/* SKILLS INPUT */}
+          <div>
+            <label className="text-gray-400 text-sm mb-2 block">
+              Skills
+            </label>
+
+            <div className="flex gap-2">
+              <input
+                type="text"
+                placeholder="Add a skill"
+                value={skillInput}
+                onChange={(e) => setSkillInput(e.target.value)}
+                className="flex-1 px-4 py-2 rounded-xl bg-white/5 border border-white/10 focus:border-blue-500 outline-none text-white"
+              />
+              <button
+                type="button"
+                onClick={addSkill}
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 hover:scale-105 transition flex items-center gap-2"
               >
-                {skill}
-              </span>
-            ))}
+                <Plus size={16} />
+                Add
+              </button>
+            </div>
+
+            {/* SKILL TAGS */}
+            <div className="flex flex-wrap gap-2 mt-3">
+              {formData.skills.map((skill, idx) => (
+                <span
+                  key={idx}
+                  className="flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs"
+                >
+                  {skill}
+                  <X
+                    size={14}
+                    className="cursor-pointer text-red-400"
+                    onClick={() => removeSkill(skill)}
+                  />
+                </span>
+              ))}
+            </div>
           </div>
 
-          <textarea
-            name="bio"
-            placeholder="Your bio"
-            value={formData.bio}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
-          />
+          {/* BIO */}
+          <div>
+            <label className="text-gray-400 text-sm mb-2 block">
+              Bio
+            </label>
+            <textarea
+              name="bio"
+              placeholder="Tell us about yourself..."
+              value={formData.bio}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-blue-500 outline-none text-white resize-none"
+              rows="4"
+            />
+          </div>
 
-          <input
-            type="number"
-            name="availability"
-            placeholder="Availability (hours/week)"
-            value={formData.availability}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
-          />
+          {/* AVAILABILITY */}
+          <div>
+            <label className="text-gray-400 text-sm mb-2 block">
+              Availability (hours/week)
+            </label>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 focus-within:border-blue-500">
+              <Clock size={16} className="text-gray-400" />
+              <input
+                type="number"
+                name="availability"
+                value={formData.availability}
+                onChange={handleChange}
+                className="w-full bg-transparent outline-none text-white"
+                placeholder="e.g. 20"
+              />
+            </div>
+          </div>
 
-          <input
-            type="text"
-            name="githubUsername"
-            placeholder="GitHub Username"
-            value={formData.githubUsername}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
-          />
+          {/* GITHUB */}
+          <div>
+            <label className="text-gray-400 text-sm mb-2 block">
+              GitHub Username
+            </label>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 focus-within:border-blue-500">
+              <Github size={16} className="text-gray-400" />
+              <input
+                type="text"
+                name="githubUsername"
+                value={formData.githubUsername}
+                onChange={handleChange}
+                className="w-full bg-transparent outline-none text-white"
+                placeholder="your-github-username"
+              />
+            </div>
+          </div>
 
+          {/* SUBMIT */}
           <button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg transition duration-200"
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 hover:scale-105 transition font-semibold shadow-lg shadow-blue-500/20"
           >
             Complete Profile
           </button>
 
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };
