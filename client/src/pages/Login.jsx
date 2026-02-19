@@ -264,6 +264,10 @@ function Login() {
       if (!profileCompleted) {
         navigate("/complete-profile");
       } 
+      // If profile is complete, go to dashboard based on role
+      else if (data.user.role === "creator") {
+        navigate("/creator");
+
       // 🚀 ROLE BASED DASHBOARD
       else if (role === "creator") {
         navigate("/creator-dashboard");

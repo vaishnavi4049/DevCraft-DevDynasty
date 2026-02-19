@@ -13,6 +13,8 @@ import ViewRequest from "./pages/ProjectRequests";
 import ProjectChat from "./pages/projectChat";
 // import DeveloperApplications from "./pages/DeveloperApplications";
 import LandingPage from "./pages/LandingPage";
+import CreatorLanding from "./pages/CreatorLandingPage";
+import NegotiationChat from "./pages/Negotiation";
 import DeveloperApplications from "./pages/DeveloperAppliedProject";
 // Temporary dashboards (you can improve later)
 // const CreatorDashboard = () => (
@@ -31,7 +33,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<Register />} />
@@ -41,20 +42,28 @@ function App() {
         <Route path="/create-project" element={<CreateProject />} />
         <Route path="/creator-dashboard" element={<CreatorDashboard />} />
         <Route path="/complete-profile" element={<CompleteProfile />} />
-        <Route path="/view-requests" element={<ViewRequest/>} />
+        <Route path="/view-requests" element={<ViewRequest />} />
         <Route path="/chat/:projectId" element={<ProjectChat />} />
-        {/* Developer Routes */}
+          <Route
+          path="/negotiation/:conversationId"
+          element={<NegotiationChat />}
+        />
 
-      <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
+        {/* Developer Routes */}
+        <Route path="/feed" element={<ProjectFeed />} />
+        <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
 
         <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
+
+
+        <Route path="/my-applications" element={<DeveloperApplications />} />
+        <Route path="/creator" element={<CreatorLanding />} />
         <Route path="/developer-application" element={<DeveloperApplications />} />
         <Route path="/project-feed" element={<ProjectFeed />} />
 {/* <Route path="/myappliedproject" element={<DeveloperApplications />} /> */}
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />
-
       </Routes>
     </BrowserRouter>
   );
