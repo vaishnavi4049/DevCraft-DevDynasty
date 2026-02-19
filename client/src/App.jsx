@@ -6,6 +6,9 @@ import CreateProject from "./pages/CreateProject";
 import ProjectFeed from "./pages/ProjectFeed";
 import CompleteProfile from "./pages/CompleteProfile";
 import CreatorDashboard from "./pages/CreatorDashboard";
+
+import DeveloperDashboard from "./pages/DeveloperDashboard";
+
 import ViewRequest from "./pages/ProjectRequests";
 import ProjectChat from "./pages/projectChat";
 import DeveloperApplications from "./pages/DeveloperApplications";
@@ -16,11 +19,11 @@ import DeveloperApplications from "./pages/DeveloperApplications";
 //   </div>
 // );
 
-const DeveloperDashboard = () => (
-  <div className="p-8">
-    <h2 className="text-2xl font-bold">Developer Dashboard</h2>
-  </div>
-);
+// const DeveloperDashboard = () => (
+//   <div className="p-8">
+//     <h2 className="text-2xl font-bold">Developer Dashboard</h2>
+//   </div>
+// );
 
 function App() {
   return (
@@ -39,6 +42,9 @@ function App() {
         <Route path="/view-requests" element={<ViewRequest/>} />
         <Route path="/chat/:projectId" element={<ProjectChat />} />
         {/* Developer Routes */}
+
+      <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
+
         <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
         
 <Route path="/my-applications" element={<DeveloperApplications />} />

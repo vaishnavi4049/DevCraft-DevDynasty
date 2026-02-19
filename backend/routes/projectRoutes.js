@@ -1,9 +1,8 @@
 const express = require("express");
-
-const Project = require("../models/Project");
-const User = require("../models/User");
-
 const router = express.Router();
+const Project = require("../models/Project");
+
+
 
 const {
   createProject,
@@ -12,30 +11,39 @@ const {
   getMyProjects,
   deleteProject,
   updateProject,
-
+  applyToProject,
+  getMatchingProjects,
+  getAppliedProjects,
+  getRecommendedDevelopers
 } = require("../controllers/projectController");
 
+const { isAuthenticated } = require("../middleware/isAuthenticated");
 
-const { isAuthenticated } =
-  require("../middleware/isAuthenticated");
 
-// Create project (creator only)
+// =======================
+// PROJECT CRUD
+// =======================
+
 router.post("/", isAuthenticated, createProject);
-
-// Get all projects
 router.get("/", getAllProjects);
-
-// Search projects
 router.get("/search", searchProjects);
-
-// Get projects of logged-in creator
 router.get("/my-projects", isAuthenticated, getMyProjects);
-// Update project
-router.put("/:id", isAuthenticated, updateProject);
 
-// Delete project
+// =======================
+// 🔥 IMPORTANT: SPECIFIC ROUTES FIRST
+// =======================
+
+router.get("/matching", isAuthenticated, getMatchingProjects);
+router.get("/applied", isAuthenticated, getAppliedProjects);
+router.get("/:projectId/recommend", isAuthenticated, getRecommendedDevelopers);
+
+router.post("/:id/apply", isAuthenticated, applyToProject);
+
+
+router.put("/:id", isAuthenticated, updateProject);
 router.delete("/:id", isAuthenticated, deleteProject);
 router.get("/:projectId/users", async (req, res) => {
+
   try {
     const { projectId } = req.params;
 
@@ -55,5 +63,7 @@ router.get("/:projectId/users", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+
 
 module.exports = router;

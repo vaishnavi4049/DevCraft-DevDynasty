@@ -17,25 +17,52 @@ const projectSchema = new mongoose.Schema(
       required: true
     },
 
-    requiredSkills: [String],
+    requiredSkills: [
+      {
+        type: String
+      }
+    ],
 
     duration: {
-      type: String // e.g. "48 hours"
+      type: String
     },
 
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      ref: "User",
+      required: true
     },
-    team: [
-  {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  }
-]
 
+    // Developers who applied
+    applicants: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ],
+
+    // Project status
+    status: {
+      type: String,
+      enum: ["open", "closed"],
+      default: "open"
+    },
+
+    // Selected Developer
+    selectedDeveloper: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null
+    },
+
+    // Team members
+    team: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ]
   },
-  
   { timestamps: true }
 );
 
