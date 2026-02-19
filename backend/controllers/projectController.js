@@ -1,9 +1,7 @@
 const Project = require("../models/Project");
 const User = require("../models/User");
 
-/* ================================
-   🔹 CREATE PROJECT (Creator Only)
-================================ */
+
 exports.createProject = async (req, res) => {
   try {
     if (req.role !== "creator") {
@@ -52,9 +50,6 @@ exports.searchProjects = async (req, res) => {
   }
 };
 
-/* ================================
-   🔹 GET ALL PROJECTS
-================================ */
 exports.getAllProjects = async (req, res) => {
   try {
     const projects = await Project.find()
@@ -69,10 +64,6 @@ exports.getAllProjects = async (req, res) => {
   }
 };
 
-
-/* ================================
-   🔹 GET MY PROJECTS (Creator)
-================================ */
 exports.getMyProjects = async (req, res) => {
   try {
     const projects = await Project.find({
@@ -87,9 +78,6 @@ exports.getMyProjects = async (req, res) => {
 };
 
 
-/* ================================
-   🔹 UPDATE PROJECT
-================================ */
 exports.updateProject = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -130,9 +118,6 @@ exports.updateProject = async (req, res) => {
 };
 
 
-/* ================================
-   🔹 DELETE PROJECT
-================================ */
 exports.deleteProject = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -153,9 +138,6 @@ exports.deleteProject = async (req, res) => {
 };
 
 
-/* ================================
-   🔹 APPLY TO PROJECT
-================================ */
 exports.applyToProject = async (req, res) => {
   try {
     if (req.role !== "user") {
@@ -184,9 +166,6 @@ exports.applyToProject = async (req, res) => {
 };
 
 
-/* ================================
-   🔹 MATCH PROJECTS TO DEVELOPER
-================================ */
 exports.getMatchingProjects = async (req, res) => {
   try {
     const user = await User.findById(req.id);
@@ -210,9 +189,6 @@ exports.getMatchingProjects = async (req, res) => {
 };
 
 
-/* ================================
-   🔹 GET APPLIED PROJECTS
-================================ */
 exports.getAppliedProjects = async (req, res) => {
   try {
     const projects = await Project.find({
@@ -226,10 +202,6 @@ exports.getAppliedProjects = async (req, res) => {
   }
 };
 
-
-/* ================================
-   🔥 NEW: RECOMMEND DEVELOPERS
-================================ */
 exports.getRecommendedDevelopers = async (req, res) => {
   try {
     const project = await Project.findById(req.params.projectId);

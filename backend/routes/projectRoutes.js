@@ -29,9 +29,7 @@ router.get("/", getAllProjects);
 router.get("/search", searchProjects);
 router.get("/my-projects", isAuthenticated, getMyProjects);
 
-// =======================
-// 🔥 IMPORTANT: SPECIFIC ROUTES FIRST
-// =======================
+
 
 router.get("/matching", isAuthenticated, getMatchingProjects);
 router.get("/applied", isAuthenticated, getAppliedProjects);

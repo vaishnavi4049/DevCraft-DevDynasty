@@ -2,7 +2,6 @@ const TeamRequest = require("../models/TeamRequest");
 const Project = require("../models/Project");
 
 
-// 🔹 Apply to Join Project
 exports.applyToProject = async (req, res) => {
   try {
     const { projectId, message } = req.body;
@@ -13,7 +12,7 @@ exports.applyToProject = async (req, res) => {
       return res.status(404).json({ message: "Project not found" });
     }
 
-    // prevent duplicate request
+
     const existing = await TeamRequest.findOne({
       project: projectId,
       sender: req.id,
@@ -43,43 +42,6 @@ exports.applyToProject = async (req, res) => {
 };
 
 
-// exports.respondToRequest = async (req, res) => {
-//   try {
-//     const { requestId, action } = req.body; // action = accept or reject
-
-//     const request = await TeamRequest.findById(requestId);
-
-//     if (!request) {
-//       return res.status(404).json({ message: "Request not found" });
-//     }
-
-//     if (!request.receiver.equals(req.id)) {
-//       return res.status(403).json({ message: "Not authorized" });
-//     }
-
-//     if (action === "accept") {
-//       request.status = "accepted";
-
-//       // Add user to project team
-//       await Project.findByIdAndUpdate(request.project, {
-//         $addToSet: { team: request.sender }
-//       });
-
-//     } else {
-//       request.status = "rejected";
-//     }
-
-//     await request.save();
-
-//     res.json({
-//       success: true,
-//       message: `Request ${action}ed`
-//     });
-
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
 
 exports.respondToRequest = async (req, res) => {
   try {

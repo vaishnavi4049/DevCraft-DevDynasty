@@ -65,9 +65,6 @@ router.get("/:userAId/:userBId", async (req, res) => {
 
     const reliabilityScore = avgCompletion * 20;
 
-    // -----------------------------
-    // Final Compatibility
-    // -----------------------------
 
     const compatibility =
       skillScore +

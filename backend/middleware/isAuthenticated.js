@@ -14,7 +14,7 @@ const isAuthenticated = async (req, res, next) => {
       });
     }
 
-    // 2️⃣ Verify token
+ 
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
     if (!decoded) {
@@ -24,7 +24,7 @@ const isAuthenticated = async (req, res, next) => {
       });
     }
 
-    // 3️⃣ Find user from DB
+
     const user = await User.findById(decoded.id).select("-password");
 
     if (!user) {
