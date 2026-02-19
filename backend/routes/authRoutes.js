@@ -23,5 +23,11 @@ router.get("/me", async (req, res) => {
   }
 });
 
+router.post("/logout", (req, res) => {
+  res.clearCookie("token"); // if using cookies
+  res.status(200).json({ message: "Logged out successfully" });
+});
+
+
 
 module.exports = router;
