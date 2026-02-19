@@ -130,7 +130,7 @@ Compatibility Score: An AI score predicting how well two users might work togeth
 
 - Installation & Setup
 1️.Clone Repository
-git clone https://github.com/your-username/collabsphere.git
+git clone [https://github.com/your-username/collabsphere.git](https://github.com/vaishnavi4049/DevCraft-DevDynasty)
 cd collabsphere
 
 2️. Backend Setup
@@ -149,3 +149,4 @@ Make sure MongoDB is running locally or configure your MongoDB Atlas URI.
 📄 License
 
 This project is licensed under the MIT License.
+
