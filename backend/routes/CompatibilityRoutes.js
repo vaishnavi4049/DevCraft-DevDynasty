@@ -3,7 +3,6 @@ const router = express.Router();
 const User = require("../models/User");
 const Project = require("../models/Project");
 
-// GET compatibility between two users
 router.get("/:userAId/:userBId", async (req, res) => {
   try {
     const { userAId, userBId } = req.params;
@@ -15,10 +14,6 @@ router.get("/:userAId/:userBId", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // -----------------------------
-    // 1️⃣ Skill Overlap Score (30)
-    // -----------------------------
-
     const skillsA = userA.skills.map(s => s.name.toLowerCase());
     const skillsB = userB.skills.map(s => s.name.toLowerCase());
 
@@ -28,18 +23,14 @@ router.get("/:userAId/:userBId", async (req, res) => {
 
     const skillScore = (overlap.length / maxSkills) * 30;
 
-    // -----------------------------
-    // 2️⃣ GitHub Strength Balance (20)
-    // -----------------------------
+   
 
     const diff = Math.abs(userA.githubScore - userB.githubScore);
     const maxScore = Math.max(userA.githubScore, userB.githubScore) || 1;
 
     const githubBalanceScore = (1 - diff / maxScore) * 20;
 
-    // -----------------------------
-    // 3️⃣ Past Collaboration (30)
-    // -----------------------------
+  
 
     const commonProjects = await Project.find({
       team: { $all: [userAId, userBId] }
@@ -47,9 +38,6 @@ router.get("/:userAId/:userBId", async (req, res) => {
 
     const collaborationScore = commonProjects.length > 0 ? 30 : 0;
 
-    // -----------------------------
-    // 4️⃣ Completion Reliability (20)
-    // -----------------------------
 
     const completionRateA =
       userA.totalProjects > 0
@@ -64,10 +52,6 @@ router.get("/:userAId/:userBId", async (req, res) => {
     const avgCompletion = (completionRateA + completionRateB) / 2;
 
     const reliabilityScore = avgCompletion * 20;
-
-    // -----------------------------
-    // Final Compatibility
-    // -----------------------------
 
     const compatibility =
       skillScore +

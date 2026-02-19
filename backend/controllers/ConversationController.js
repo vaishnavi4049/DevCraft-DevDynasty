@@ -2,9 +2,6 @@ const Conversation = require("../models/Conversation");
 const Project = require("../models/Project");
 const User = require("../models/User");
 
-/* =====================================
-   CREATE CONVERSATION
-===================================== */
 const createConversation = async (req, res) => {
   try {
     const { projectId, developerId } = req.body;
@@ -35,9 +32,6 @@ const createConversation = async (req, res) => {
   }
 };
 
-/* =====================================
-   SEND OFFER
-===================================== */
 const sendOffer = async (req, res) => {
   try {
     const conversation = await Conversation.findById(req.params.id);
@@ -55,9 +49,7 @@ const sendOffer = async (req, res) => {
   }
 };
 
-/* =====================================
-   ACCEPT OFFER
-===================================== */
+
 const acceptOffer = async (req, res) => {
   try {
     const conversation = await Conversation.findById(req.params.id);
