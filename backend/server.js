@@ -69,6 +69,7 @@ io.on("connection", (socket) => {
   });
 
 
+
   socket.on("sendMessage", async ({ projectId, userId, text }) => {
 
     const message = await Message.create({
