@@ -11,7 +11,7 @@ import DeveloperDashboard from "./pages/DeveloperDashboard";
 import DeveloperInvitations from "./pages/DeveloperInvitations";
 
 import ViewRequest from "./pages/ProjectRequests";
-import ProjectChat from "./pages/projectChat";
+import ProjectChat from "./pages/ProjectChat";
 import LandingPage from "./pages/LandingPage";
 import CreatorLanding from "./pages/CreatorLandingPage";
 import NegotiationChat from "./pages/Negotiation";
