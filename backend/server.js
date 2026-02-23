@@ -31,7 +31,8 @@ const io = new Server(server, {
 });
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  //origin: "http://localhost:5173",
+  origin: "https://devdynasty-git-main-vaishnaviadhav777-gmailcoms-projects.vercel.app",
   credentials: true
 }));
 
