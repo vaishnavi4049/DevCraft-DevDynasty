@@ -23,40 +23,45 @@ function Login() {
 
   // ================= LOGIN SUBMIT =================
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  e.preventDefault();
+  setError("");
+  setLoading(true);
 
-    try {
-      const data = await loginUser(formData);
+  try {
+    const data = await loginUser(formData);
 
-      if (!data || !data.user) {
-        throw new Error("Invalid server response");
-      }
+    if (!data || !data.user) {
+      throw new Error("Invalid server response");
+    }
 
-      const { profileCompleted, role } = data.user;
+    const { profileCompleted, role } = data.user;
 
-      // FORCE PROFILE COMPLETION
+    // ✅ ROLE BASED LOGIC
+
+    // If Creator → directly go to creator dashboard
+    if (role === "creator") {
+      navigate("/creator");
+    }
+
+    // If Developer
+    else if (role === "user") {
+
+      // If profile not completed → force profile
       if (!profileCompleted) {
         navigate("/complete-profile");
-      } 
-      // If profile is complete, go to dashboard based on role
-      else if (data.user.role === "creator") {
-        navigate("/creator");
-
-      //  ROLE BASED DASHBOARD
-      }else if (role === "creator") {
-        navigate("/creator-dashboard");
       } else {
         navigate("/developer-dashboard");
       }
 
-    } catch (error) {
-      setError(error.response?.data?.message || "Login failed");
-    } finally {
-      setLoading(false);
     }
-  };
+
+  } catch (error) {
+    setError(error.response?.data?.message || "Login failed");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-[#0A0A0F] text-white flex items-center justify-center relative overflow-hidden">
@@ -124,7 +129,7 @@ function Login() {
         <p className="text-center mt-6 text-sm text-gray-400">
           Don't have an account?{" "}
           <span
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate("/register")}
             className="text-blue-400 cursor-pointer font-semibold hover:text-blue-300"
           >
             Create Account

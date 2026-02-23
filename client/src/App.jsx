@@ -8,6 +8,7 @@ import CompleteProfile from "./pages/CompleteProfile";
 import CreatorDashboard from "./pages/CreatorDashboard";
 
 import DeveloperDashboard from "./pages/DeveloperDashboard";
+import DeveloperInvitations from "./pages/DeveloperInvitations";
 
 import ViewRequest from "./pages/ProjectRequests";
 import ProjectChat from "./pages/projectChat";
@@ -40,8 +41,7 @@ function App() {
         {/* Developer Routes */}
         <Route path="/feed" element={<ProjectFeed />} />
         <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
-
-        <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
+        <Route path="/developer-invite" element={<DeveloperInvitations />} />
 
 
         <Route path="/my-applications" element={<DeveloperApplications />} />
