@@ -24,21 +24,14 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:5173",
-      "https://devdynasty-git-main-vaishnaviadhav777-gmailcoms-projects.vercel.app"
-    ],
-    methods: ["GET", "POST"],
+    origin: true,
     credentials: true
   },
   transports: ["websocket", "polling"]
 });
 
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://devdynasty-git-main-vaishnaviadhav777-gmailcoms-projects.vercel.app"
-  ],
+  origin: true,
   credentials: true
 }));
 
