@@ -1,8 +1,8 @@
 import { io } from "socket.io-client";
 
-const socket = io("https://backend.onrender.com", {
+const socket = io("https://devcraft-devdynasty.onrender.com", {
   withCredentials: true,
-  transports: ["websocket"],   // 🚀 important
+  transports: ["websocket"]
 });
 
 export default socket;

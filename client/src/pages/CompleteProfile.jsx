@@ -49,7 +49,7 @@ const CompleteProfile = () => {
 
     try {
       const res = await axios.post(
-        "https://backend.onrender.com/api/users/complete-profile",
+        "https://devcraft-devdynasty.onrender.com/api/users/complete-profile",
         formData,
         { withCredentials: true }
       );
