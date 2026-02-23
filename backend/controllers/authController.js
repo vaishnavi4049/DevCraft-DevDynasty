@@ -15,6 +15,7 @@ exports.register = async (req, res) => {
       });
     }
 
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
@@ -53,14 +54,14 @@ exports.login = async (req, res) => {
     // Return updated user object including profileCompleted
     const userData = await User.findById(user._id).select("-password");
 
-    res.status(200)
-      .cookie("token", token, {
-        httpOnly: true,
-         secure: false,      // 🔥 change this
-  sameSite: "Lax",
-        maxAge: 24 * 60 * 60 * 1000
-      })
-      .json({ success: true, user: userData });
+   res.status(200)
+  .cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", 
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    maxAge: 24 * 60 * 60 * 1000
+  })
+  .json({ success: true, user: userData });
 
   } catch (error) {
     res.status(500).json({ message: "Login failed", success: false });
