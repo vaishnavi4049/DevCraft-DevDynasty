@@ -17,6 +17,7 @@ const conversationRoutes = require("./routes/conversationRoutes");
 
 const TeamRequest = require("./models/TeamRequest");
 const Message = require("./models/Message");
+const invitationRoutes = require("./routes/invitationRoutes");
 
 const app = express();
 const server = http.createServer(app);
@@ -45,7 +46,7 @@ app.use("/api/users", completeProfileRoutes);
 app.use("/api/compatibility", compatibilityRoutes);
 app.use("/api/conversations", conversationRoutes);
 app.use("/api/request", require("./routes/TeamRequestRoutes"));
-
+app.use("/api/invitations", invitationRoutes);
 /* ================= SOCKET LOGIC ================= */
 
 io.on("connection", (socket) => {

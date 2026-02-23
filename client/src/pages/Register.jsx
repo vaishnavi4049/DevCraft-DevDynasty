@@ -26,7 +26,7 @@ function Register() {
       await registerUser(formData);
 
       if (formData.role === "creator") {
-        navigate("/create-project");
+        navigate("/login");
       } else {
         navigate("/login");
       }
@@ -100,6 +100,7 @@ function Register() {
           >
             <option value="user" className="bg-[#0A0A0F]">
               Technical Person
+              
             </option>
             <option value="creator" className="bg-[#0A0A0F]">
               Project Creator

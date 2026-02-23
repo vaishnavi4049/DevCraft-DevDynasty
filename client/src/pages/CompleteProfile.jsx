@@ -58,7 +58,7 @@ const CompleteProfile = () => {
 
       const userRole = res.data.user.role;
       setTimeout(() => {
-        if (userRole === "creator") navigate("/create-project");
+        if (userRole === "creator") navigate("/developer-dashboard");
         else navigate("/developer-dashboard");
       }, 1000);
 
