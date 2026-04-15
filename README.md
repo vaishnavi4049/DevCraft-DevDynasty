@@ -5,7 +5,7 @@
 
 ## 🌍 Overview
 
-**CollabSphere** is a full-stack AI-powered collaboration platform designed to help developers build stronger, smarter, and more reliable teams.
+**CollabSphere** is a full-stack collaboration platform designed to help developers build stronger, smarter, and more reliable teams.
 
 Unlike traditional collaboration tools, CollabSphere introduces an intelligent **AI Compatibility Score (0–100%)** that predicts how well two users will collaborate based on:
 
@@ -324,7 +324,7 @@ git push origin feature-name
 
 # 🌟 Why CollabSphere?
 
-✔ AI-driven compatibility prediction  
+✔ Compatibility prediction  
 ✔ Data-backed collaboration insights  
 ✔ Intelligent team formation  
 ✔ Real-time secure communication  
