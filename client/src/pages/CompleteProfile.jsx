@@ -48,8 +48,13 @@ const CompleteProfile = () => {
     setMessage("");
 
     try {
+      // const res = await axios.post(
+      //   "https://devcraft-devdynasty.onrender.com/api/users/complete-profile",
+      //   formData,
+      //   { withCredentials: true }
+      // );
       const res = await axios.post(
-        "https://devcraft-devdynasty.onrender.com/api/users/complete-profile",
+        "http://localhost:5000/api/users/complete-profile",
         formData,
         { withCredentials: true }
       );

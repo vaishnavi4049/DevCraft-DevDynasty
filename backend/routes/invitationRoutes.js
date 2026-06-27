@@ -3,6 +3,7 @@ const router = express.Router();
 const Invitation = require("../models/Invitation");
 const Conversation = require("../models/Conversation");
 const { isAuthenticated } = require("../middleware/isAuthenticated");
+const Project = require("../models/Project");
 
 // 🔥 Send Invitation
 router.post("/", isAuthenticated, async (req, res) => {
@@ -31,43 +32,69 @@ router.post("/", isAuthenticated, async (req, res) => {
   }
 });
 
-// 🔥 Get Developer Invitations
+// // 🔥 Get Developer Invitations
+// router.get("/developer", isAuthenticated, async (req, res) => {
+//   try {
+//     const invites = await Invitation.find({
+//       developerId: req.user.id,
+//       status: "pending",
+//     }).populate("projectId recruiterId");
+
+//     res.json(invites);
+//   } catch (err) {
+//     res.status(500).json({ message: "Error fetching invitations" });
+//   }
+// });
 router.get("/developer", isAuthenticated, async (req, res) => {
   try {
+    console.log("Logged in user:", req.user.id);
+
     const invites = await Invitation.find({
       developerId: req.user.id,
-      status: "pending",
     }).populate("projectId recruiterId");
+
+    console.log(invites);
 
     res.json(invites);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Error fetching invitations" });
   }
 });
-
 // 🔥 Accept Invitation
 router.patch("/:id/accept", isAuthenticated, async (req, res) => {
   try {
     const invite = await Invitation.findById(req.params.id);
 
-    if (!invite) return res.status(404).json({ message: "Not found" });
+    if (!invite) {
+      return res.status(404).json({ message: "Invitation not found" });
+    }
 
+    const project = await Project.findById(invite.projectId);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    // update team safely
+    await Project.findByIdAndUpdate(invite.projectId, {
+      $addToSet: { team: invite.developerId }
+    });
+
+    // now update invite
     invite.status = "accepted";
     await invite.save();
 
-    // Create Conversation
-    const conversation = await Conversation.create({
-      projectId: invite.projectId,
-      recruiterId: invite.recruiterId,
-      developerId: invite.developerId,
+    res.json({
+      success: true,
+      projectId: project._id
     });
 
-    res.json({ message: "Accepted", conversation });
   } catch (err) {
-    res.status(500).json({ message: "Error accepting invitation" });
+    console.error(err);
+    res.status(500).json({ message: err.message });
   }
 });
-
 // 🔥 Reject Invitation
 router.patch("/:id/reject", isAuthenticated, async (req, res) => {
   try {

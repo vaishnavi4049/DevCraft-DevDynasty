@@ -18,20 +18,40 @@ const conversationRoutes = require("./routes/conversationRoutes");
 const TeamRequest = require("./models/TeamRequest");
 const Message = require("./models/Message");
 const invitationRoutes = require("./routes/invitationRoutes");
-
+const messageRoutes  = require("./routes/messageRoutes");
 const app = express();
 const server = http.createServer(app);
 
+// const io = new Server(server, {
+//   cors: {
+//     origin: true,
+//     credentials: true
+//   },
+//   transports: ["websocket", "polling"]
+// });
 const io = new Server(server, {
   cors: {
-    origin: true,
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://devcraft-devdynasty.onrender.com"
+    ],
     credentials: true
   },
   transports: ["websocket", "polling"]
 });
 
+// app.use(cors({
+//   origin: true,
+//   credentials: true
+// }));
+
 app.use(cors({
-  origin: true,
+  origin: [
+    "http://localhost:5000",
+    "http://localhost:5173",
+    "https://devcraft-devdynasty.onrender.com"
+  ],
   credentials: true
 }));
 
@@ -47,29 +67,16 @@ app.use("/api/compatibility", compatibilityRoutes);
 app.use("/api/conversations", conversationRoutes);
 app.use("/api/request", require("./routes/TeamRequestRoutes"));
 app.use("/api/invitations", invitationRoutes);
+
+app.use("/api/messages", require("./routes/messageRoutes"));
 /* ================= SOCKET LOGIC ================= */
 
 io.on("connection", (socket) => {
 
   // GROUP CHAT
-  socket.on("joinRoom", async ({ projectId, userId }) => {
-
-    const accepted = await TeamRequest.findOne({
-      project: projectId,
-      status: "accepted",
-      $or: [
-        { sender: userId },
-        { receiver: userId }
-      ]
-    });
-
-    if (!accepted) {
-      return socket.emit("error", "Not authorized to join chat");
-    }
-
-    socket.join(projectId);
-  });
-
+  socket.on("joinRoom", ({ projectId }) => {
+  socket.join(projectId);
+});
   socket.on("sendMessage", async ({ projectId, userId, text }) => {
 
     const message = await Message.create({

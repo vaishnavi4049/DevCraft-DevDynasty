@@ -37,7 +37,18 @@ function ProjectChat() {
       console.log("User not authenticated");
     }
   };
+useEffect(() => {
+  const fetchMessages = async () => {
+    try {
+      const res = await api.get(`/messages/${projectId}`);
+      setMessages(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
+  fetchMessages();
+}, [projectId]);
   const fetchProjectUsers = async (currentUserId) => {
     try {
       const res = await api.get(`/projects/${projectId}/users`);

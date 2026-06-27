@@ -142,6 +142,14 @@ function DeveloperDashboard() {
             Invitations
           </button>
 
+           <button
+            onClick={() => navigate("/my-collaborations")}
+            className="flex items-center gap-2 hover:text-white"
+          >
+            <FolderOpen size={18} />
+               My Collaborations
+          </button>
+
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 text-red-400 hover:text-red-500"

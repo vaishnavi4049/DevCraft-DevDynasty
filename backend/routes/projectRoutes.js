@@ -14,7 +14,8 @@ const {
   applyToProject,
   getMatchingProjects,
   getAppliedProjects,
-  getRecommendedDevelopers
+  getRecommendedDevelopers,
+  getMyCollaborations
 } = require("../controllers/projectController");
 
 const { isAuthenticated } = require("../middleware/isAuthenticated");
@@ -36,6 +37,11 @@ router.get("/my-projects", isAuthenticated, getMyProjects);
 router.get("/matching", isAuthenticated, getMatchingProjects);
 router.get("/applied", isAuthenticated, getAppliedProjects);
 router.get("/:projectId/recommend", isAuthenticated, getRecommendedDevelopers);
+router.get(
+    "/my-collaborations",
+    isAuthenticated,
+    getMyCollaborations
+);
 
 router.post("/:id/apply", isAuthenticated, applyToProject);
 

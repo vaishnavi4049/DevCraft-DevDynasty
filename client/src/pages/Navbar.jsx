@@ -20,6 +20,8 @@ const Navbar = ({ currentUser }) => {
           <>
             <Link to="/feed">Feed</Link>
             <Link to="/applied-projects">Applied Projects</Link>
+            
+            <Link to="/my-collaborations">My Collaborations</Link>
           </>
         )}
       </div>

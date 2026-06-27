@@ -86,6 +86,25 @@ exports.getMyProjects = async (req, res) => {
   }
 };
 
+exports.getMyCollaborations = async (req, res) => {
+    try {
+        const projects = await Project.find({
+            team: req.id
+        }).populate("createdBy", "fullname");
+
+        res.json({
+            success: true,
+            projects
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+};
+
 
 /* ================================
    🔹 UPDATE PROJECT
@@ -128,6 +147,8 @@ exports.updateProject = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
 
 
 /* ================================

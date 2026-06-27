@@ -15,12 +15,19 @@ function DeveloperInvitations() {
     setInvitations(res.data);
   };
 
-  const acceptInvite = async (id) => {
-    const res = await api.patch(`/invitations/${id}/accept`);
-    const conversationId = res.data.conversation._id;
+ const acceptInvite = async (id) => {
+  console.log("Accept clicked:", id);
 
-    navigate(`/negotiation/${conversationId}`);
-  };
+  try {
+    const res = await api.patch(`/invitations/${id}/accept`);
+
+    console.log(res.data);
+
+    navigate(`/chat/${res.data.projectId}`);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   const rejectInvite = async (id) => {
     await api.patch(`/invitations/${id}/reject`);

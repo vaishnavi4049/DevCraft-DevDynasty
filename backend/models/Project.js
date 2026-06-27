@@ -56,12 +56,13 @@ const projectSchema = new mongoose.Schema(
     },
 
     // Team members
-    team: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-      }
-    ]
+   team: [
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    default: []
+  }
+]
   },
   { timestamps: true }
 );

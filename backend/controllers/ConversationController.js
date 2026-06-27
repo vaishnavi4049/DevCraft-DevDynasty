@@ -74,9 +74,9 @@ const acceptOffer = async (req, res) => {
     const developerId = req.user.id;
 
     // Add developer safely
-    if (!project.teamMembers.includes(developerId)) {
-      project.teamMembers.push(developerId);
-    }
+   if (!project.team.includes(developerId)) {
+    project.team.push(developerId);
+}
 
     project.status = "in-progress";
     await project.save();

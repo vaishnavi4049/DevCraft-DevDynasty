@@ -16,7 +16,7 @@ import LandingPage from "./pages/LandingPage";
 import CreatorLanding from "./pages/CreatorLandingPage";
 import NegotiationChat from "./pages/Negotiation";
 import DeveloperApplications from "./pages/DeveloperAppliedProject";
-
+import MyCollaborations from "./pages/MyCollaboration";
 
 function App() {
   return (
@@ -31,6 +31,10 @@ function App() {
         <Route path="/create-project" element={<CreateProject />} />
         <Route path="/creator-dashboard" element={<CreatorDashboard />} />
         <Route path="/complete-profile" element={<CompleteProfile />} />
+        <Route
+  path="/my-collaborations"
+  element={<MyCollaborations/>}
+/>
         <Route path="/view-requests" element={<ViewRequest />} />
         <Route path="/chat/:projectId" element={<ProjectChat />} />
           <Route
